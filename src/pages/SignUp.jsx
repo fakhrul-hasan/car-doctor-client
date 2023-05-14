@@ -1,25 +1,36 @@
-import { Link } from 'react-router-dom';
-import img from '../assets/images/login/login.svg'
-import { useContext } from 'react';
-import { AuthContext } from '../providers/AuthProvider';
+import { Link } from "react-router-dom";
+import img from "../assets/images/login/login.svg";
+import { useContext } from "react";
+import { AuthContext } from "../providers/AuthProvider";
+import { FaGoogle } from "react-icons/fa";
 
 const SignUp = () => {
-    const {createUser} = useContext(AuthContext);
-    const handleSignUp=event=>{
-        event.preventDefault();
-        const form = event.target;
-        // const name = form.name.value;
-        const email = form.email.value;
-        const password = form.password.value;
-        createUser(email, password)
-        .then(result=>{
-            const user = result.user;
-            console.log(user);
-        })
-        .catch(error=>{
-            console.log(error);
-        })
-    }
+  const { createUser, googleSignIn } = useContext(AuthContext);
+  const handleSignUp = (event) => {
+    event.preventDefault();
+    const form = event.target;
+    // const name = form.name.value;
+    const email = form.email.value;
+    const password = form.password.value;
+    createUser(email, password)
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  const handleGoogleSignIn = ()=>{
+    googleSignIn()
+    .then(result=>{
+      const user = result.user;
+      console.log(user);
+    })
+    .catch(error=>{
+      console.error(error);
+    })
+  }
   return (
     <div className="hero min-h-screen">
       <div className="hero-content grid grid-cols-1 md:grid-cols-2">
@@ -36,7 +47,7 @@ const SignUp = () => {
               <input
                 type="text"
                 placeholder="name"
-                name='name'
+                name="name"
                 className="input input-bordered"
               />
             </div>
@@ -46,7 +57,7 @@ const SignUp = () => {
               </label>
               <input
                 type="text"
-                name='email'
+                name="email"
                 placeholder="email"
                 className="input input-bordered"
               />
@@ -57,7 +68,7 @@ const SignUp = () => {
               </label>
               <input
                 type="text"
-                name='password'
+                name="password"
                 placeholder="password"
                 className="input input-bordered"
               />
@@ -71,7 +82,10 @@ const SignUp = () => {
               <button className="btn btn-primary">Sign Up</button>
             </div>
           </form>
-          <p className="text-center">Or Sign Up with</p>
+          <div className="divider">OR</div>
+          <button onClick={handleGoogleSignIn} className="btn btn-circle btn-outline mx-auto">
+            <FaGoogle className="text-lg"/>
+          </button>
           <p className="text-center">
             Have an account?{" "}
             <Link to="/login" className="text-orange-600 font-bold">
